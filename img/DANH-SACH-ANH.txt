@@ -1,0 +1,28 @@
+ẢNH CẦN CÓ (đặt trong thư mục img/, định dạng .jpg, ưu tiên ảnh ngang, rộng từ 1600 px)
+Thiếu ảnh nào, web tự ẩn ảnh đó; không bị lỗi.
+
+ẢNH CHÍNH (hiện ở trang đầu, thẻ gợi ý và ảnh lớn của từng địa danh)
+  chua-cau.jpg      Chùa Cầu
+  phuc-kien.jpg     Hội quán Phúc Kiến
+  tan-ky.jpg        Nhà cổ Tấn Ký
+  my-son.jpg        Thánh địa Mỹ Sơn
+  thanh-ha.jpg      Làng gốm Thanh Hà
+  tra-que.jpg       Làng rau Trà Quế
+
+ẢNH PHỤ (mỗi địa danh tối đa 3 ảnh, hiện thành bộ ảnh nhỏ, bấm để phóng to)
+  chua-cau-2.jpg  chua-cau-3.jpg  chua-cau-4.jpg
+  phuc-kien-2.jpg phuc-kien-3.jpg phuc-kien-4.jpg
+  tan-ky-2.jpg    tan-ky-3.jpg    tan-ky-4.jpg
+  my-son-2.jpg    my-son-3.jpg    my-son-4.jpg
+  thanh-ha-2.jpg  thanh-ha-3.jpg  thanh-ha-4.jpg
+  tra-que-2.jpg   tra-que-3.jpg   tra-que-4.jpg
+
+ẢNH KHÔNG KHÍ HỘI AN (mục "Hội An qua ảnh", tối đa 8 ảnh: đèn lồng, sông Hoài về đêm, phố cổ...)
+  hoian-1.jpg ... hoian-8.jpg
+
+----------------------------------------------------------------
+TÌNH TRẠNG HIỆN TẠI
+Đã có: chua-cau (4 ảnh), phuc-kien (3 ảnh), tan-ky (4 ảnh), my-son (3 ảnh), thanh-ha (4 ảnh), hoian-1 đến hoian-6.
+Còn thiếu: tra-que.jpg (ảnh chính) và tra-que-2..4; phuc-kien-4; my-son-4; hoian-7, hoian-8.
+Lưu ý: hoian-2 đến hoian-6 đang dùng lại ảnh các địa danh để mục "Hội An qua ảnh" hiện ngay; thay bằng ảnh khác bất cứ lúc nào.
+hoian-1 là Hội quán Quảng Triệu (không phải Phúc Kiến).

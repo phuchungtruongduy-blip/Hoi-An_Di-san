@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khám phá Hội An – Di sản văn hóa thế giới</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090b;
+  --surface:#0e1217;
+  --fg:#f5f0e8;
+  --mut:#a89f91;
+  --ac:#f0b04a;
+  --ac-soft:rgba(240,176,74,.16);
+  --rd:#d63a3a;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.16,1,.3,1);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Be Vietnam Pro',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scrollbar-width:thin;scrollbar-color:#ffffff24 var(--bg)}
+::-webkit-scrollbar{width:6px;height:0}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#ffffff24;border-radius:99px}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.68 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+
+/* Lớp vân giấy sơn mài siêu nhẹ phủ toàn trang */
+.grain{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#embers{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* Header mờ kính */
+header{position:fixed;inset:0 0 auto;z-index:25;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(16px,4vw,52px);font-size:11px;letter-spacing:.14em;font-weight:600;background:linear-gradient(#07090be6,#07090b00);backdrop-filter:blur(10px);border-bottom:1px solid rgba(245,240,232,.06)}
+.lg{display:flex;align-items:center;gap:10px;font-weight:700}
+.lg i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--rd);box-shadow:0 0 12px var(--rd),0 0 24px var(--ac);animation:pulse 3s infinite ease-in-out}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.25);opacity:.75}}
+nav{display:flex;gap:clamp(14px,2.6vw,32px)}
+nav a{position:relative;padding-bottom:4px;color:#e6dfd2;transition:color .35s var(--ease)}
+nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--ac);transition:width .4s var(--ease)}
+nav a:hover{color:var(--ac)}
+nav a:hover::after{width:100%}
+
+/* Hero điện ảnh + Parallax + Crossfade */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(16px,4vw,52px) 64px;position:relative;overflow:hidden}
+.hbg{position:absolute;inset:-6% 0;z-index:0;background:radial-gradient(circle at 72% 38%,rgba(240,176,74,.12),transparent 52%),linear-gradient(180deg,rgba(7,9,11,.42) 0%,rgba(7,9,11,.25) 45%,var(--bg) 100%),var(--img) center/cover,linear-gradient(160deg,#6b4a16,#1b1208 55%,#07090b);opacity:0;transform:translateY(var(--py,0px)) scale(1.09);transition:opacity 1.3s var(--ease),transform 8.5s ease-out;pointer-events:none;will-change:opacity,transform}
+.hbg.on{opacity:1;transform:translateY(var(--py,0px)) scale(1)}
+.hc{position:relative;z-index:3;max-width:780px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin-bottom:14px;font-weight:600}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--ac)}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(54px,11.5vw,136px);line-height:.88;letter-spacing:-.02em;text-shadow:0 16px 48px rgba(0,0,0,.65)}
+h1 span{display:block;font-style:italic;font-weight:600;color:var(--ac)}
+.hc p{max-width:470px;margin:28px 0 22px;color:#e6dfd2;font-size:14px;line-height:1.75;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.hc p.swap{opacity:0;transform:translateY(10px)}
+.hc p b{display:block;font-family:var(--serif);font-size:24px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:.01em}
+.sw{font-size:11.5px;font-weight:700;letter-spacing:.18em;border-bottom:1px solid var(--ac);padding:6px 2px;display:inline-flex;align-items:center;gap:10px;transition:transform .4s var(--ease),color .4s var(--ease),gap .4s var(--ease)}
+.sw:hover{color:var(--ac);gap:16px}
+
+/* Chỉ số dọc + thanh tiến trình slide */
+#cnt{position:absolute;right:clamp(14px,3.2vw,44px);top:50%;transform:translateY(-50%);z-index:3;list-style:none;padding:0;display:grid;gap:14px;text-align:right}
+#cnt button{all:unset;cursor:pointer;color:rgba(245,240,232,.48);font-size:12px;font-weight:600;letter-spacing:.08em;transition:all .45s var(--ease);display:inline-flex;align-items:center;gap:10px;justify-content:flex-end}
+#cnt button:hover{color:#fff}
+#cnt .on{color:#fff;font-family:var(--serif);font-size:36px;font-weight:700;line-height:1}
+#cnt .on::before{content:"";width:28px;height:1.5px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.h-prog{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.08);z-index:4}
+.h-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rd),var(--ac));box-shadow:0 0 12px var(--ac)}
+
+/* Section & Lộ diện mượt */
+section{position:relative;z-index:2;padding:92px clamp(16px,4vw,52px)}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .95s var(--spring),transform .95s var(--spring)}
+.reveal.in{opacity:1;transform:none}
+.k{color:var(--ac);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+h2{font-family:var(--serif);font-size:clamp(30px,4.8vw,52px);font-weight:700;line-height:1.08;margin:8px 0 34px}
+
+/* Lưới 6 thẻ địa danh 3D Tilt + Ánh kim quét theo chuột */
+#cards{display:grid;gap:18px;grid-template-columns:repeat(2,1fr);perspective:1000px}
+@media(min-width:720px){#cards{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1120px){#cards{grid-template-columns:repeat(6,1fr)}}
+.card{position:relative;overflow:hidden;aspect-ratio:3/4;border-radius:14px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;border:1px solid rgba(245,240,232,.12);transform-style:preserve-3d;transition:transform .25s ease-out,border-color .45s var(--ease),box-shadow .45s var(--ease);will-change:transform}
+.card::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(7,9,11,.08) 32%,rgba(7,9,11,.92) 100%),var(--img) center/cover,linear-gradient(160deg,#6b4a16,#1b1208 55%,#07090b);transition:transform .85s var(--ease)}
+.card::after{content:"";position:absolute;inset:0;z-index:1;opacity:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(240,176,74,.26),transparent 70%);transition:opacity .4s var(--ease);pointer-events:none}
+.card:hover::after{opacity:1}
+.card>*{position:relative;z-index:2;transform:translateZ(14px)}
+.card:hover{border-color:rgba(240,176,74,.65);box-shadow:0 20px 40px rgba(0,0,0,.65)}
+.card:hover::before{transform:scale(1.08)}
+.card.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac),0 20px 44px rgba(0,0,0,.7)}
+.card span{color:var(--ac);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.card b{font-family:var(--serif);font-size:21px;line-height:1.18;font-weight:700}
+.card small{color:#d8d0c3;font-size:11.5px;margin-top:4px;opacity:.85}
+
+/* Chi tiết & Thanh Tab trượt mượt (Sliding Pill) */
+.dg{display:grid;gap:36px;grid-template-columns:1fr}
+@media(min-width:860px){.dg{grid-template-columns:1fr 1.12fr}}
+#tabs{position:relative;display:inline-flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;padding:5px;border-radius:99px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)}
+#tabs button{position:relative;z-index:1;background:none;border:0;color:var(--fg);padding:8px 16px;border-radius:99px;font:500 12.5px var(--sans);cursor:pointer;transition:color .35s var(--ease)}
+#tabs button:hover{color:var(--ac)}
+#tabs button.on{color:#111;font-weight:700}
+.tab-pill{position:absolute;top:0;left:0;z-index:0;border-radius:99px;background:var(--ac);box-shadow:0 4px 16px rgba(240,176,74,.35);transition:transform .45s var(--spring),width .45s var(--spring),height .45s var(--spring);pointer-events:none}
+
+#dbox{transition:opacity .4s var(--ease),transform .4s var(--ease)}
+#dbox.fade{opacity:0;transform:translateY(10px)}
+.gal{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-bottom:22px}
+.th{all:unset;display:block;cursor:zoom-in;aspect-ratio:4/3;border-radius:10px;background:var(--img) center/cover,#1a1f25;border:1px solid rgba(245,240,232,.12);transition:transform .5s var(--ease),border-color .4s var(--ease),box-shadow .4s var(--ease)}
+.th:hover{transform:translateY(-3px) scale(1.015);border-color:var(--ac);box-shadow:0 12px 26px rgba(0,0,0,.5)}
+.th.big{grid-column:1/-1;aspect-ratio:16/9;border-radius:12px}
+.th.ph{cursor:default;background:linear-gradient(160deg,#6b4a16,#1b1208 55%,#07090b)}
+.dg h3{font-family:var(--serif);font-size:32px;line-height:1.15;font-weight:700}
+.meta{color:var(--mut);font-size:13px;margin:6px 0 16px}
+.dg h4{margin:18px 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ac)}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ac);color:#111;font:700 12px var(--sans);letter-spacing:.08em;padding:12px 22px;border:0;border-radius:99px;cursor:pointer;transition:transform .3s var(--spring),box-shadow .3s var(--ease),filter .3s var(--ease)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(240,176,74,.28);filter:brightness(1.05)}
+.btn:active{transform:translateY(0)}
+.btn.o{background:rgba(255,255,255,.03);color:var(--fg);border:1px solid rgba(245,240,232,.22)}
+.btn.o:hover{border-color:var(--ac);color:var(--ac);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+iframe{width:100%;height:100%;min-height:380px;border:0;border-radius:14px;background:#12161a;border:1px solid rgba(245,240,232,.1)}
+
+/* Form & Camera trực tiếp */
+.rw{max-width:640px}
+.rw p.i{color:var(--mut);margin:-16px 0 24px}
+input,select,textarea{width:100%;background:var(--surface);border:1px solid rgba(245,240,232,.12);color:var(--fg);padding:13px 15px;border-radius:10px;font:inherit;margin-bottom:14px;transition:border-color .35s var(--ease),box-shadow .35s var(--ease)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-soft)}
+textarea{min-height:110px;resize:vertical}
+.cam-box{background:var(--surface);border:1px solid rgba(245,240,232,.12);border-radius:14px;padding:16px;margin-bottom:16px}
+.cam-idle{padding:32px 16px;text-align:center;color:var(--mut);font-size:13.5px;border:1px dashed rgba(240,176,74,.35);border-radius:10px;background:rgba(240,176,74,.03)}
+#cam,#prev{width:100%;max-height:360px;object-fit:cover;border-radius:10px;display:block;background:#000}
+#cam[hidden],#prev[hidden],.cam-idle[hidden],.cam-bar button[hidden]{display:none}
+.cam-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+#rst,#qn{font-size:13px;margin-top:12px;color:var(--ac);line-height:1.6}
+
+/* QR */
+.qb{display:flex;gap:36px;align-items:center;flex-wrap:wrap}
+#qr{background:#fff;padding:16px;border-radius:16px;width:252px;height:252px;display:grid;place-items:center;box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 0 1px rgba(240,176,74,.3)}
+#qr img{display:none}
+.qs{flex:1;min-width:260px;max-width:480px}
+
+/* Chatbot */
+#cb{position:fixed;right:20px;bottom:20px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.65)}
+#cw{position:fixed;right:20px;bottom:76px;z-index:30;width:min(380px,calc(100vw - 32px));height:min(510px,72vh);background:rgba(16,20,26,.94);backdrop-filter:blur(14px);border:1px solid rgba(245,240,232,.14);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.8);opacity:1;transform:translateY(0) scale(1);transition:opacity .35s var(--spring),transform .35s var(--spring)}
+#cw.hide{opacity:0;transform:translateY(16px) scale(.96);pointer-events:none}
+.ch{padding:14px 16px;font-weight:600;font-size:14px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.03)}
+.ch button{all:unset;cursor:pointer;font-size:22px;line-height:1;color:var(--mut);transition:color .2s}
+.ch button:hover{color:#fff}
+#cm{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:86%;padding:10px 14px;border-radius:14px;font-size:13.5px;background:#1c222a;white-space:pre-wrap;animation:pop .3s var(--spring)}
+.m.u{align-self:flex-end;background:var(--ac);color:#111;font-weight:500}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#cf{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.08)}
+#cf input{margin:0}
+
+/* Khoảnh khắc Hội An & Lightbox */
+#strip{columns:3 240px;column-gap:14px}
+.sp{width:100%;display:block;margin-bottom:14px;border-radius:12px;cursor:zoom-in;break-inside:avoid;border:1px solid rgba(245,240,232,.08);transition:transform .55s var(--ease),filter .55s var(--ease),box-shadow .55s var(--ease)}
+.sp:hover{transform:translateY(-4px) scale(1.015);filter:brightness(1.07);box-shadow:0 16px 34px rgba(0,0,0,.6)}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(4,6,8,.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .35s var(--ease)}
+#lb.hide{opacity:0;pointer-events:none}
+#li{max-width:92vw;max-height:88vh;border-radius:10px;box-shadow:0 24px 64px rgba(0,0,0,.85);transition:transform .4s var(--spring)}
+#lb.hide #li{transform:scale(.94)}
+#lb button{all:unset;cursor:pointer;color:#fff;font-size:38px;line-height:1;padding:18px;position:absolute;transition:color .25s,transform .25s}
+#lb button:hover{color:var(--ac);transform:scale(1.1)}
+#lp{left:6px}#ln{right:6px}#lc{top:6px;right:10px}
+footer{position:relative;z-index:2;padding:36px;text-align:center;color:var(--mut);font-size:12px;letter-spacing:.06em;border-top:1px solid rgba(245,240,232,.08)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}#embers{display:none}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="embers" aria-hidden="true"></canvas>
+
+<header><a class="lg" href="#hero"><i></i>HỘI AN</a><nav><a href="#sites">Di sản</a><a href="#detail">Bản đồ</a><a href="#report">Báo cáo</a><a href="#qrs">QR</a></nav></header>
+
+<section id="hero">
+  <div class="hbg on" id="hbg-a"></div>
+  <div class="hbg" id="hbg-b"></div>
+  <div class="hc">
+    <div class="eyebrow">Di sản Văn hóa Thế giới • UNESCO 1999</div>
+    <h1>KHÁM PHÁ<br><span>Hội An</span></h1>
+    <p id="hd"></p>
+    <a class="sw" id="hgo" href="#detail">XEM CHI TIẾT <span>&rarr;</span></a>
+  </div>
+  <ol id="cnt"></ol>
+  <div class="h-prog"><i id="hbar"></i></div>
+</section>
+
+<section id="sites" class="reveal">
+  <div class="k">Phố cổ Hội An – Di sản văn hóa thế giới UNESCO, 1999</div>
+  <h2>Gợi ý điểm đến</h2>
+  <div id="cards"></div>
+</section>
+
+<section id="detail" class="reveal">
+  <div class="k">Thông tin và chỉ đường</div>
+  <h2>Trải nghiệm di sản</h2>
+  <div id="tabs"><span class="tab-pill" id="tpill"></span></div>
+  <div class="dg">
+    <div id="dbox">
+      <div class="gal" id="gal"></div>
+      <h3 id="dn"></h3>
+      <div class="meta"><span id="de"></span> – <span id="da"></span></div>
+      <p id="dd"></p>
+      <h4>Ý nghĩa văn hóa</h4>
+      <p id="dm"></p>
+      <div class="btns"><a class="btn" id="dir" target="_blank" rel="noopener">Chỉ đường bằng Google Maps</a><a class="btn o" href="#report">Báo cáo hư hại</a></div>
+    </div>
+    <iframe id="map" title="Bản đồ Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
+<section id="photos" class="reveal" hidden>
+  <div class="k">Khoảnh khắc Hội An</div>
+  <h2>Hội An qua ảnh</h2>
+  <div id="strip"></div>
+</section>
+
+<section id="report" class="reveal">
+  <div class="rw">
+    <div class="k">Bảo vệ di sản</div>
+    <h2>Báo cáo hành vi phá hoại</h2>
+    <p class="i">Thấy di tích bị vẽ bậy, hư hỏng hoặc xâm hại? Bật camera chụp trực tiếp tại hiện trường, báo cáo sẽ chuyển thẳng đến email quản lý di sản.</p>
+    <form id="rf">
+      <select id="rsite" aria-label="Địa điểm"></select>
+      <textarea id="rdesc" required placeholder="Mô tả: chuyện gì đã xảy ra, vị trí cụ thể, thời điểm..."></textarea>
+      <input id="rcon" placeholder="Tên hoặc số điện thoại liên hệ (không bắt buộc)">
+
+      <div class="cam-box">
+        <video id="cam" autoplay playsinline muted hidden></video>
+        <img id="prev" alt="Ảnh đã chụp" hidden>
+        <div id="cam-idle" class="cam-idle">Chưa bật camera. Bấm nút bên dưới để chụp trực tiếp bằng camera máy.</div>
+        <div class="cam-bar">
+          <button class="btn o" type="button" id="cam-start">Bật camera</button>
+          <button class="btn" type="button" id="cam-snap" hidden>Chụp ảnh</button>
+          <button class="btn o" type="button" id="cam-flip" hidden>Đổi cam</button>
+        </div>
+      </div>
+
+      <button class="btn" type="submit">Gửi báo cáo</button>
+      <p id="rst" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<section id="qrs" class="reveal">
+  <div class="k">Mở trên điện thoại</div>
+  <h2>Quét mã QR để vào web</h2>
+  <div class="qb">
+    <div id="qr"></div>
+    <div class="qs">
+      <p style="margin-bottom:14px">Mở camera điện thoại và quét mã để vào thẳng trang web này. Nếu muốn quét qua 4G/5G hoặc Wi-Fi khác, hãy mở web bằng link <b>https://...trycloudflare.com</b>.</p>
+      <input id="qu" aria-label="Địa chỉ web">
+      <div class="btns" style="margin-top:0">
+        <button class="btn o" id="qg" type="button">Tạo lại mã</button>
+        <button class="btn o" id="qsite-btn" type="button">QR địa danh đang xem</button>
+        <a class="btn" id="qrdl" download="qr-hoi-an.png" href="#">Tải mã QR</a>
+      </div>
+      <p id="qn"></p>
+    </div>
+  </div>
+</section>
+
+<footer>Hội An – Quảng Nam · Hãy cùng gìn giữ di sản</footer>
+
+<div id="lb" class="hide" role="dialog" aria-label="Xem ảnh"><button id="lp" aria-label="Ảnh trước">‹</button><img id="li" alt=""><button id="ln" aria-label="Ảnh sau">›</button><button id="lc" aria-label="Đóng">×</button></div>
+
+<button class="btn" id="cb">Hỏi đáp di sản</button>
+<div id="cw" class="hide">
+  <div class="ch">Hướng dẫn viên Hội An<button id="cx" aria-label="Đóng">×</button></div>
+  <div id="cm"></div>
+  <form id="cf"><input id="ci" placeholder="Hỏi về di sản, đường đi, chức năng web..." autocomplete="off"><button class="btn">Gửi</button></form>
+</div>
+
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const CFG={
+  REPORT_ENDPOINT:"/api/report",
+  CHAT_ENDPOINT:"/api/chat",
+  SITE_URL:""
+};
+const S=[
+{id:"chua-cau",n:"Chùa Cầu",e:"Đầu thế kỷ 17",a:"Đầu đường Trần Phú, phố cổ Hội An",lat:15.87707,lng:108.32608,k:["chua cau","cau nhat ban","lai vien kieu"],
+ d:"Cây cầu mái ngói bắc qua con lạch nhỏ, do thương nhân Nhật Bản dựng để nối khu phố người Nhật với khu phố người Hoa. Giữa cầu có miếu thờ Bắc Đế Trấn Vũ, hai đầu cầu có tượng khỉ và tượng chó.",
+ m:"Biểu tượng của Hội An, minh chứng cho thời thương cảng giao thương Nhật – Việt – Hoa sầm uất. Hình ảnh Chùa Cầu có trên tờ tiền 20.000 đồng."},
+{id:"phuc-kien",n:"Hội quán Phúc Kiến",e:"Cuối thế kỷ 17",a:"46 Trần Phú, phố cổ Hội An",lat:15.87793,lng:108.32787,k:["phuc kien","hoi quan phuc kien","thien hau"],
+ d:"Hội quán của cộng đồng người Hoa gốc Phúc Kiến, gồm cổng tam quan, sân vườn tiểu cảnh và chính điện thờ Thiên Hậu Thánh Mẫu, vị thần che chở người đi biển.",
+ m:"Nơi sinh hoạt cộng đồng và gìn giữ tín ngưỡng của người Hoa, thể hiện sự giao thoa văn hóa Việt – Hoa qua nghệ thuật chạm khắc gỗ và gốm."},
+{id:"tan-ky",n:"Nhà cổ Tấn Ký",e:"Hơn 200 năm tuổi",a:"101 Nguyễn Thái Học, phố cổ Hội An",lat:15.8765,lng:108.3288,k:["tan ky","nha co tan ky","nha co"],
+ d:"Ngôi nhà gỗ của một gia đình thương nhân, truyền qua nhiều thế hệ. Nhà có cấu trúc ống dài, giếng trời lấy sáng, hoành phi câu đối chữ Hán khảm xà cừ.",
+ m:"Ví dụ tiêu biểu của kiến trúc nhà ở phố cổ, hòa quyện phong cách Việt, Hoa và Nhật; được xếp hạng di tích quốc gia năm 1985."},
+{id:"my-son",n:"Thánh địa Mỹ Sơn",e:"Thế kỷ 4 – 13",a:"Thung lũng Mỹ Sơn, cách Hội An khoảng 40 km",lat:15.764,lng:108.1237,k:["my son","thanh dia","thap cham","champa"],
+ d:"Quần thể đền tháp Chăm Pa trong thung lũng núi, thờ thần Shiva và các vị vua được thần hóa. Tháp xây bằng gạch nung đặc trưng; nhiều công trình bị hư hại do chiến tranh.",
+ m:"Di sản văn hóa thế giới UNESCO (1999), chứng tích của nền văn minh Chăm Pa rực rỡ ở Đông Nam Á."},
+{id:"thanh-ha",n:"Làng gốm Thanh Hà",e:"Hơn 500 năm",a:"Thanh Hà, cách phố cổ khoảng 3 km",lat:15.8725,lng:108.304,k:["thanh ha","lang gom","gom"],
+ d:"Làng nghề gốm truyền thống bên sông Thu Bồn, nổi tiếng với đồ đất nung, tượng nhỏ và vật trang trí. Du khách có thể tự tay nặn gốm cùng nghệ nhân.",
+ m:"Lưu giữ kỹ thuật làm gốm thủ công gắn với đời sống thương cảng xưa của Hội An."},
+{id:"tra-que",n:"Làng rau Trà Quế",e:"Hàng trăm năm",a:"Trà Quế, cách phố cổ khoảng 3 km",lat:15.89,lng:108.344,k:["tra que","lang rau","rau tra que"],
+ d:"Làng trồng rau thơm truyền thống, bón bằng rong tảo vớt từ đầm Trà Quế. Du khách có thể đạp xe, làm ruộng và học nấu món Hội An.",
+ m:"Giữ nếp canh tác truyền thống, cung cấp rau thơm cho ẩm thực Hội An như cao lầu và mì Quảng."}
+];
+S.forEach(s=>s.img="img/"+s.id+".jpg");
+const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
+const url=s=>`url('${s.img}')`;
+let cur=0,h=0,bgFlip=0,firstHero=true,slideTimer=null;
+
+/* 1. Cuộn quán tính mượt Lenis + Parallax Hero */
+let lenis=null;
+if(typeof Lenis!=="undefined"){
+ lenis=new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
+ const raf=t=>{lenis.raf(t);requestAnimationFrame(raf)};
+ requestAnimationFrame(raf);
+}
+function smoothTo(target){
+ const el=typeof target==="string"?$(target):target;
+ if(!el)return;
+ if(lenis)lenis.scrollTo(el,{offset:-20});
+ else el.scrollIntoView({behavior:"smooth"});
+}
+$$('a[href^="#"]').forEach(a=>{
+ a.addEventListener("click",e=>{
+  const id=a.getAttribute("href");
+  if(id&&id.length>1&&$(id)){e.preventDefault();smoothTo(id)}
+ });
+});
+addEventListener("scroll",()=>{
+ const y=Math.min(scrollY,innerHeight);
+ const py=(y*0.26).toFixed(1)+"px";
+ $("#hbg-a").style.setProperty("--py",py);
+ $("#hbg-b").style.setProperty("--py",py);
+},{passive:true});
+
+/* 2. Đốm sáng hoa đăng & đèn lồng bay lơ lửng */
+(()=>{
+ const cv=$("#embers"),ctx=cv.getContext("2d");
+ let w=0,ht=0,pts=[];
+ const resize=()=>{w=cv.width=innerWidth;ht=cv.height=innerHeight};
+ resize();addEventListener("resize",resize);
+ const count=Math.min(28,Math.floor(innerWidth/48));
+ for(let i=0;i<count;i++){
+  pts.push({
+   x:Math.random()*w,y:Math.random()*ht,
+   r:Math.random()*1.9+0.8,
+   vy:-(Math.random()*0.32+0.12),
+   vx:(Math.random()-0.5)*0.22,
+   a:Math.random()*0.5+0.2,
+   hue:Math.random()>0.25?"240,176,74":"214,74,58"
+  });
+ }
+ function draw(){
+  if(!document.hidden){
+   ctx.clearRect(0,0,w,ht);
+   for(const p of pts){
+    p.x+=p.vx+Math.sin(p.y*0.01)*0.12;
+    p.y+=p.vy;
+    if(p.y<-10){p.y=ht+10;p.x=Math.random()*w}
+    if(p.x<-10)p.x=w+10;
+    if(p.x>w+10)p.x=-10;
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4.5);
+    g.addColorStop(0,`rgba(${p.hue},${p.a})`);
+    g.addColorStop(1,`rgba(${p.hue},0)`);
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r*4.5,0,Math.PI*2);
+    ctx.fill();
+   }
+  }
+  requestAnimationFrame(draw);
+ }
+ draw();
+})();
+
+/* 3. Hero crossfade + thanh tiến trình đếm ngược */
+$("#cnt").innerHTML=S.map((s,i)=>`<li><button data-i="${i}" aria-label="${s.n}">0${i+1}</button></li>`).join("");
+function resetProgress(){
+ const bar=$("#hbar");
+ bar.style.transition="none";
+ bar.style.width="0%";
+ void bar.offsetWidth;
+ bar.style.transition="width 7s linear";
+ bar.style.width="100%";
+ clearInterval(slideTimer);
+ slideTimer=setInterval(()=>hero((h+1)%S.length),7000);
+}
+function hero(i){
+ h=i;const s=S[i];
+ const nextEl=bgFlip?$("#hbg-a"):$("#hbg-b"),prevEl=bgFlip?$("#hbg-b"):$("#hbg-a");
+ nextEl.style.setProperty("--img",url(s));
+ void nextEl.offsetWidth;
+ nextEl.classList.add("on");
+ if(!firstHero)prevEl.classList.remove("on");
+ bgFlip=1-bgFlip;
+ const hd=$("#hd");
+ if(firstHero){
+  hd.innerHTML=`<b>${s.n}</b>${s.d.split(". ")[0].replace(/\.$/,"")}.`;
+  firstHero=false;
+ }else{
+  hd.classList.add("swap");
+  setTimeout(()=>{
+   hd.innerHTML=`<b>${s.n}</b>${s.d.split(". ")[0].replace(/\.$/,"")}.`;
+   hd.classList.remove("swap");
+  },240);
+ }
+ $$("#cnt button").forEach((b,j)=>b.classList.toggle("on",j===i));
+ resetProgress();
+}
+$("#cnt").onclick=e=>{const b=e.target.closest("button");if(b)hero(+b.dataset.i)};
+$("#hgo").onclick=e=>{e.preventDefault();pick(h,true);smoothTo("#detail")};
+let tx=0;$("#hero").addEventListener("touchstart",e=>tx=e.touches[0].clientX,{passive:true});
+$("#hero").addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)hero((h+(d<0?1:S.length-1))%S.length)});
+
+/* 4. Thẻ địa danh 3D Tilt + Sliding Pill Tabs */
+$("#cards").innerHTML=S.map((s,i)=>`<a class="card" style="--img:${url(s)}" href="#detail" data-i="${i}"><span>Top ${i+1}</span><b>${s.n}</b><small>${s.e}</small></a>`).join("");
+$$(".card").forEach(card=>{
+ card.addEventListener("mousemove",e=>{
+  const r=card.getBoundingClientRect();
+  const x=e.clientX-r.left,y=e.clientY-r.top;
+  const rx=((y/r.height)-0.5)*-9;
+  const ry=((x/r.width)-0.5)*9;
+  card.style.setProperty("--mx",x+"px");
+  card.style.setProperty("--my",y+"px");
+  card.style.transform=`translateY(-6px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+ });
+ card.addEventListener("mouseleave",()=>{card.style.transform=""});
+});
+$("#cards").onclick=e=>{const c=e.target.closest(".card");if(c){e.preventDefault();pick(+c.dataset.i,true);smoothTo("#detail")}};
+
+$("#tabs").insertAdjacentHTML("beforeend",S.map((s,i)=>`<button type="button" data-i="${i}">${s.n}</button>`).join(""));
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(b)pick(+b.dataset.i,true)};
+$("#rsite").innerHTML=S.map((s,i)=>`<option value="${i}">${s.n}</option>`).join("");
+
+function moveTabPill(i){
+ const btn=$$("#tabs button")[i],pill=$("#tpill");
+ if(!btn||!pill)return;
+ pill.style.width=btn.offsetWidth+"px";
+ pill.style.height=btn.offsetHeight+"px";
+ pill.style.transform=`translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
+}
+addEventListener("resize",()=>moveTabPill(cur));
+
+const okImgs=u=>Promise.all(u.map(x=>new Promise(r=>{const i=new Image;i.onload=()=>r(x);i.onerror=()=>r(null);i.src=x}))).then(a=>a.filter(Boolean));
+let LB={l:[],i:0},gt=0,GL=[];
+function lbs(){$("#li").src=LB.l[LB.i];$("#lp").style.display=$("#ln").style.display=LB.l.length>1?"":"none"}
+function lbo(l,i){LB={l,i};lbs();$("#lb").classList.remove("hide")}
+$("#lp").onclick=()=>{LB.i=(LB.i+LB.l.length-1)%LB.l.length;lbs()};
+$("#ln").onclick=()=>{LB.i=(LB.i+1)%LB.l.length;lbs()};
+$("#lc").onclick=()=>$("#lb").classList.add("hide");
+$("#lb").onclick=e=>{if(e.target.id==="lb")$("#lb").classList.add("hide")};
+addEventListener("keydown",e=>{if($("#lb").classList.contains("hide"))return;if(e.key==="Escape")$("#lb").classList.add("hide");if(e.key==="ArrowLeft")$("#lp").click();if(e.key==="ArrowRight")$("#ln").click()});
+
+async function gal(s){const t=++gt;$("#gal").innerHTML='<div class="th big ph"></div>';
+ const u=await okImgs([s.img,...[2,3,4].map(n=>`img/${s.id}-${n}.jpg`)]);if(t!==gt)return;GL=u;
+ if(u.length)$("#gal").innerHTML=u.map((x,j)=>`<button class="th${j?"":" big"}" data-j="${j}" style="--img:url('${x}')" aria-label="Phóng to ảnh ${s.n}"></button>`).join("")}
+$("#gal").onclick=e=>{const b=e.target.closest("button");if(b)lbo(GL,+b.dataset.j)};
+okImgs([1,2,3,4,5,6,7,8].map(n=>`img/hoian-${n}.jpg`)).then(u=>{if(!u.length)return;$("#photos").hidden=false;
+ $("#strip").innerHTML=u.map((x,j)=>`<img class="sp" src="${x}" alt="Khung cảnh Hội An" loading="lazy" tabindex="0" data-j="${j}">`).join("");
+ const o=e=>{const i=e.target.closest(".sp");if(i)lbo(u,+i.dataset.j)};$("#strip").onclick=o;$("#strip").onkeydown=e=>{if(e.key==="Enter")o(e)}});
+
+function pick(i,smooth=false){
+ cur=i;const s=S[i],box=$("#dbox");
+ const render=()=>{
+  $("#dn").textContent=s.n;$("#de").textContent=s.e;$("#da").textContent=s.a;$("#dd").textContent=s.d;$("#dm").textContent=s.m;
+  gal(s);
+  $("#map").src=`https://www.google.com/maps?q=${s.lat},${s.lng}&hl=vi&z=16&output=embed`;
+  $("#dir").href=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`;
+  $("#rsite").value=i;
+ };
+ if(smooth){
+  box.classList.add("fade");
+  setTimeout(()=>{render();box.classList.remove("fade")},190);
+ }else render();
+ $$("#tabs button").forEach((b,j)=>b.classList.toggle("on",j===i));
+ $$(".card").forEach((c,j)=>c.classList.toggle("on",j===i));
+ requestAnimationFrame(()=>moveTabPill(i));
+}
+
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.12});
+$$(".reveal").forEach(el=>obs.observe(el));
+
+const initSite=new URLSearchParams(location.search).get("site");
+const initIdx=Math.max(0,S.findIndex(x=>x.id===initSite));
+hero(initIdx);pick(initIdx);
+if(initSite)setTimeout(()=>smoothTo("#detail"),350);
+
+/* Báo cáo phá hoại kết nối trực tiếp Camera máy */
+let camStream=null,facing="environment",photoBlob=null;
+function stopCam(){
+ if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
+ $("#cam").hidden=true;
+ $("#cam-snap").hidden=true;
+ $("#cam-flip").hidden=true;
+}
+async function startCam(){
+ const st=$("#rst");st.textContent="";
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+  st.textContent="Trình duyệt chặn camera do chưa dùng HTTPS. Hãy mở web qua link https:// (Cloudflare Tunnel) hoặc localhost.";
+  return;
+ }
+ stopCam();
+ try{
+  camStream=await navigator.mediaDevices.getUserMedia({
+   video:{facingMode:{ideal:facing},width:{ideal:1600},height:{ideal:1200}},
+   audio:false
+  });
+  const v=$("#cam");
+  v.srcObject=camStream;
+  v.hidden=false;
+  $("#prev").hidden=true;
+  $("#cam-idle").hidden=true;
+  $("#cam-snap").hidden=false;
+  $("#cam-flip").hidden=false;
+  $("#cam-start").textContent="Tắt camera";
+ }catch(err){
+  st.textContent="Không mở được camera. Hãy cấp quyền Camera cho trình duyệt và đảm bảo đang dùng HTTPS.";
+ }
+}
+$("#cam-start").onclick=()=>{
+ if(camStream){
+  stopCam();
+  if(!photoBlob)$("#cam-idle").hidden=false;
+  $("#cam-start").textContent=photoBlob?"Chụp lại":"Bật camera";
+ }else{
+  startCam();
+ }
+};
+$("#cam-flip").onclick=()=>{
+ facing=facing==="environment"?"user":"environment";
+ startCam();
+};
+$("#cam-snap").onclick=()=>{
+ const v=$("#cam");
+ if(!v.videoWidth)return;
+ const k=Math.min(1,1600/Math.max(v.videoWidth,v.videoHeight));
+ const c=document.createElement("canvas");
+ c.width=Math.round(v.videoWidth*k);
+ c.height=Math.round(v.videoHeight*k);
+ c.getContext("2d").drawImage(v,0,0,c.width,c.height);
+ c.toBlob(b=>{
+  photoBlob=b;
+  const p=$("#prev");
+  p.src=URL.createObjectURL(b);
+  p.hidden=false;
+  stopCam();
+  $("#cam-idle").hidden=true;
+  $("#cam-start").textContent="Chụp lại";
+  $("#rst").textContent="Đã chụp ảnh. Bấm \"Gửi báo cáo\" để gửi đi.";
+ },"image/jpeg",.82);
+};
+
+$("#rf").onsubmit=async e=>{
+ e.preventDefault();
+ const st=$("#rst"),site=S[$("#rsite").value].n;
+ if(!photoBlob){
+  st.textContent="Bạn hãy bấm \"Bật camera\" và chụp ảnh hiện trường trước khi gửi nhé.";
+  return;
+ }
+ st.textContent="Đang gửi báo cáo...";
+ try{
+  const fd=new FormData();
+  fd.append("dia_diem",site);
+  fd.append("mo_ta",$("#rdesc").value);
+  fd.append("lien_he",$("#rcon").value||"Ẩn danh");
+  fd.append("anh",photoBlob,"bao-cao.jpg");
+  const r=await fetch(CFG.REPORT_ENDPOINT,{method:"POST",body:fd});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok||!d.ok){st.textContent=d.error||"Chưa gửi được, vui lòng thử lại.";return}
+  st.textContent="Đã gửi báo cáo. Cảm ơn bạn đã bảo vệ di sản!";
+  e.target.reset();
+  photoBlob=null;
+  $("#prev").hidden=true;
+  $("#cam-idle").hidden=false;
+  $("#cam-start").textContent="Bật camera";
+ }catch(x){st.textContent="Chưa gửi được. Kiểm tra kết nối rồi gửi lại."}
+};
+
+/* Mã QR */
+let baseShareUrl=CFG.SITE_URL||location.origin;
+function qr(u){
+ const el=$("#qr");el.innerHTML="";
+ new QRCode(el,{text:u,width:220,height:220,correctLevel:QRCode.CorrectLevel.M});
+ setTimeout(()=>{const c=el.querySelector("canvas");if(c)$("#qrdl").href=c.toDataURL("image/png")},150);
+ if(/^https?:\/\/(localhost|127\.)/.test(u)){
+  $("#qn").textContent="Đang dùng localhost: chỉ mở được trên máy tính này. Hãy chạy Cloudflare Tunnel để có link https:// quét được mọi mạng.";
+ }else if(/^http:\/\/(192\.168\.|10\.|172\.)/.test(u)){
+  $("#qn").textContent="Địa chỉ mạng nội bộ: chỉ quét được khi điện thoại dùng chung Wi-Fi với máy tính (và trình duyệt sẽ chặn camera do chưa có HTTPS).";
+ }else{
+  $("#qn").textContent="Link công khai HTTPS: điện thoại dùng 4G/5G hay Wi-Fi khác đều quét mở được web và bật camera trực tiếp.";
+ }
+}
+$("#qu").value=baseShareUrl;
+$("#qg").onclick=()=>qr($("#qu").value.trim());
+$("#qsite-btn").onclick=()=>{
+ const clean=($("#qu").value.trim()||baseShareUrl).split("?")[0];
+ const target=`${clean}?site=${S[cur].id}`;
+ $("#qu").value=target;qr(target);
+};
+qr(baseShareUrl);
+
+if(!CFG.SITE_URL && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)){
+ fetch("/api/net-info").then(r=>r.json()).then(d=>{
+  if(d.lan_url){
+   baseShareUrl=d.lan_url;
+   const suffix=initSite?`?site=${initSite}`:"";
+   $("#qu").value=baseShareUrl+suffix;
+   qr($("#qu").value);
+  }
+ }).catch(()=>{});
+}
+
+/* Chatbot khóa phạm vi */
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").toLowerCase();
+const FEAT=[
+ [["bao cao","phan anh","pha hoai","gui anh","camera"],"Báo cáo phá hoại: vào mục \"Báo cáo hành vi phá hoại\", chọn địa điểm, mô tả sự việc, bấm \"Bật camera\" để chụp trực tiếp rồi bấm \"Gửi báo cáo\"."],
+ [["ma qr","qr"],"Mã QR: nằm ở mục \"Quét mã QR để vào web\". Mở camera điện thoại quét mã là vào thẳng trang web; có nút \"Tải mã QR\" để lưu ảnh."],
+ [["ban do","google map","google maps"],"Bản đồ: mục \"Trải nghiệm di sản\" có bản đồ Google của từng địa danh và nút \"Chỉ đường bằng Google Maps\" để mở lộ trình từ vị trí của bạn."],
+ [["chatbot","hoi dap"],"Chatbot (nút \"Hỏi đáp di sản\" ở góc dưới bên phải) trả lời về di sản Hội An, đường đến các địa danh và cách dùng trang web này."],
+ [["chuc nang","trang web","website","huong dan su dung","cach dung"],"Trang web có: giới thiệu 6 địa danh di sản, bản đồ và chỉ đường Google Maps, báo cáo hành vi phá hoại chụp trực tiếp bằng camera, mã QR để mở web trên điện thoại và chatbot hỏi đáp."]
+];
+const DIR=["chi duong","duong di","di den","den do","cach di","bao xa","di bo","xe may","xe buyt","taxi","grab","gui xe","bai do xe","tu da nang","san bay"];
+const KW=["hoi an","quang nam","di san","di tich","pho co","unesco","den long","cao lau","mi quang","gio mo cua","gia ve","mua ve","dia chi","tham quan","lich su","van hoa","kien truc","hoi quan","xin chao","cam on"].concat(S.flatMap(s=>s.k),DIR,FEAT.flatMap(f=>f[0]));
+const pad=q=>" "+norm(q).replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ")+" ";
+const inScope=q=>KW.some(k=>pad(q).includes(" "+k+" "));
+const REFUSE="Mình chỉ hỗ trợ về di sản Hội An, đường đến các địa danh và cách dùng các chức năng của trang web này. Bạn thử hỏi \"Đường đến Chùa Cầu\" hoặc \"Cách báo cáo phá hoại\" nhé!";
+const mapUrl=t=>`https://www.google.com/maps/dir/?api=1&destination=${t.lat},${t.lng}`;
+const hist=[];
+function local(q){const n=pad(q),has=k=>n.includes(" "+k+" "),s=S.find(x=>x.k.some(has)),f=FEAT.find(x=>x[0].some(has));
+ if(DIR.some(has)){const t=s||S[cur],g=t.id==="my-son"?"Mỹ Sơn cách Hội An khoảng 40 km, nên đi xe máy, ô tô, taxi hoặc tour.":/^(chua-cau|phuc-kien|tan-ky)$/.test(t.id)?"Điểm nằm trong phố cổ, đi bộ là tiện nhất; khu lõi phố cổ thường hạn chế xe cơ giới nên hãy gửi xe ở rìa phố cổ.":"Điểm cách phố cổ khoảng 3 km, bạn có thể đạp xe, đi xe máy hoặc taxi.";
+  return `Đường đến ${t.n} (${t.a}):\n${g}\nMở lộ trình từ vị trí của bạn: ${mapUrl(t)}\nHoặc bấm \"Chỉ đường bằng Google Maps\" ở mục Trải nghiệm di sản.`}
+ if(f)return f[1];
+ if(s)return `${s.n} (${s.e}). ${s.d} ${s.m} Địa chỉ: ${s.a}.`;
+ return "Phố cổ Hội An được UNESCO công nhận là Di sản văn hóa thế giới năm 1999. Bạn có thể hỏi về: "+S.map(x=>x.n).join(", ")+", đường đến từng địa danh hoặc cách dùng các chức năng của web.";}
+async function ask(q){
+ if(!inScope(q))return REFUSE;
+ if(!CFG.CHAT_ENDPOINT)return local(q);
+ hist.push({role:"user",content:q});
+ try{const r=await fetch(CFG.CHAT_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:hist.slice(-8)})});
+  const d=await r.json(),t=d.reply||(d.content&&d.content[0]&&d.content[0].text)||(d.choices&&d.choices[0]&&d.choices[0].message.content);
+  if(!t)throw 0;hist.push({role:"assistant",content:t});return t;
+ }catch(x){hist.pop();return local(q)}}
+function fill(d,t){d.textContent="";t.split(/(https?:\/\/[^\s)]*[^\s).,;])/).forEach(p=>{if(/^https?:\/\//.test(p)){const a=document.createElement("a");a.href=p;a.target="_blank";a.rel="noopener";a.textContent=p.includes("google.com/maps")?"Mở Google Maps":p;a.style.cssText="color:var(--ac);text-decoration:underline";d.appendChild(a)}else d.append(p)})}
+function add(t,c){const d=document.createElement("div");d.className="m "+(c||"");fill(d,t);$("#cm").appendChild(d);$("#cm").scrollTop=1e9}
+add("Xin chào! Mình có thể giới thiệu các địa danh di sản, chỉ đường đến từng nơi và hướng dẫn dùng các chức năng của web. Bạn cần gì?");
+$("#cb").onclick=()=>$("#cw").classList.toggle("hide");
+$("#cx").onclick=()=>$("#cw").classList.add("hide");
+$("#cf").onsubmit=async e=>{e.preventDefault();const q=$("#ci").value.trim();if(!q)return;$("#ci").value="";add(q,"u");add("...");
+ const a=await ask(q);fill($("#cm").lastChild,a)};
+</script>
+</body>
+</html>
